@@ -7,6 +7,8 @@ const cookieParser = require("cookie-parser");
 
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
+const productRoute = require("./routes/productRoute");
+const categoryRoute = require("./routes/categoryRoute");
 
 dotenv.config();
 connectDB();
@@ -19,6 +21,8 @@ app.use(morgan("dev"));
 
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", userRoute);
+app.use("/api/v1/products", productRoute);
+app.use("/api/v1/categories", categoryRoute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
