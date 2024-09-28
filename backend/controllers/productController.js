@@ -29,10 +29,20 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
-    return res.status(201).json({
+    const page = parseInt(req.query.page) || 1; // Trang hiện tại, mặc định là 1
+    const limit = parseInt(req.query.limit) || 10; // Số sản phẩm trên mỗi trang, mặc định là 10
+    const skip = (page - 1) * limit; // Số lượng sản phẩm cần bỏ qua
+
+    const totalProducts = await Product.countDocuments();
+
+    const products = await Product.find().skip(skip).limit(limit);
+
+    return res.status(200).json({
       status: "success",
       length: products.length,
+      totalProducts: totalProducts,
+      page: page,
+      totalPages: Math.ceil(totalProducts / limit),
       data: products,
     });
   } catch (error) {
@@ -151,6 +161,54 @@ exports.getProductsByCategory = async (req, res) => {
     return res.status(200).json({
       status: "success",
       length: products.length,
+      data: products,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
+exports.searchProducts = async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const products = await Product.find({
+      $or: [
+        { name: { $regex: query, $options: "i" } },
+        { description: { $regex: query, $options: "i" } },
+      ],
+    });
+
+    return res.status(200).json({
+      status: "success",
+      length: products.length,
+      data: products,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
+
+exports.getProductsWithPagination = async (req, res) => {
+  const { page = 1, limit = 10 } = req.query;
+
+  try {
+    const products = await Product.find()
+      .limit(limit * 1)
+      .skip((page - 1) * limit);
+
+    const count = await Product.countDocuments();
+
+    return res.status(200).json({
+      status: "success",
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
       data: products,
     });
   } catch (error) {

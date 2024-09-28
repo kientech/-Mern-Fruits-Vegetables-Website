@@ -33,5 +33,6 @@ router.delete(
   productController.deleteProductBySlug
 );
 router.get("/category/:categoryId", productController.getProductsByCategory);
+router.get("/search", productController.searchProducts);
 
 module.exports = router;
