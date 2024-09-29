@@ -5,10 +5,9 @@ const Product = require("../models/productModel");
 exports.createReview = async (req, res) => {
   const { productId } = req.params;
   const { rating, comment } = req.body;
-  const userId = req.user._id; // Giả sử bạn sử dụng middleware để lấy user từ token
+  const userId = req.user._id; 
 
   try {
-    // Kiểm tra nếu sản phẩm tồn tại
     const product = await Product.findById(productId);
     if (!product) {
       return res
