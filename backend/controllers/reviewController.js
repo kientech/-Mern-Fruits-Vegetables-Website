@@ -15,7 +15,6 @@ exports.createReview = async (req, res) => {
         .json({ status: "error", message: "Product not found" });
     }
 
-    // Kiểm tra nếu người dùng đã đánh giá sản phẩm này trước đó
     const existingReview = await Review.findOne({
       user: userId,
       product: productId,
@@ -48,7 +47,6 @@ exports.createReview = async (req, res) => {
   }
 };
 
-// Lấy tất cả review của một sản phẩm
 exports.getReviewsByProduct = async (req, res) => {
   const { productId } = req.params;
 
@@ -70,14 +68,12 @@ exports.getReviewsByProduct = async (req, res) => {
   }
 };
 
-// Cập nhật review
 exports.updateReview = async (req, res) => {
   const { reviewId } = req.params;
   const { rating, comment } = req.body;
-  const userId = req.user._id; // Lấy userId từ middleware xác thực
+  const userId = req.user._id;
 
   try {
-    // Tìm review
     const review = await Review.findById(reviewId);
 
     if (!review) {
@@ -87,7 +83,6 @@ exports.updateReview = async (req, res) => {
       });
     }
 
-    // Kiểm tra xem người dùng có phải là người tạo review hay không
     if (review.user.toString() !== userId.toString()) {
       return res.status(403).json({
         status: "error",
@@ -95,7 +90,6 @@ exports.updateReview = async (req, res) => {
       });
     }
 
-    // Cập nhật review
     review.rating = rating;
     review.comment = comment;
 
@@ -113,13 +107,11 @@ exports.updateReview = async (req, res) => {
   }
 };
 
-// Xóa review
 exports.deleteReview = async (req, res) => {
   const { reviewId } = req.params;
-  const userId = req.user._id; // Lấy userId từ middleware xác thực
+  const userId = req.user._id; 
 
   try {
-    // Tìm review
     const review = await Review.findById(reviewId);
 
     if (!review) {
