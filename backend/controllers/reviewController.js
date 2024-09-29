@@ -1,11 +1,10 @@
 const Review = require("../models/reviewModel");
 const Product = require("../models/productModel");
 
-// Tạo review mới
 exports.createReview = async (req, res) => {
   const { productId } = req.params;
   const { rating, comment } = req.body;
-  const userId = req.user._id; 
+  const userId = req.user._id;
 
   try {
     const product = await Product.findById(productId);
@@ -109,7 +108,7 @@ exports.updateReview = async (req, res) => {
 
 exports.deleteReview = async (req, res) => {
   const { reviewId } = req.params;
-  const userId = req.user._id; 
+  const userId = req.user._id;
 
   try {
     const review = await Review.findById(reviewId);
@@ -121,7 +120,6 @@ exports.deleteReview = async (req, res) => {
       });
     }
 
-    // Kiểm tra xem người dùng có phải là người tạo review hay không
     if (review.user.toString() !== userId.toString()) {
       return res.status(403).json({
         status: "error",
@@ -129,7 +127,6 @@ exports.deleteReview = async (req, res) => {
       });
     }
 
-    // Xóa review
     await review.remove();
 
     return res.status(204).json({
