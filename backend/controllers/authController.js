@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// register feature
+// Register feature
 exports.register = async (req, res) => {
   const { name, username, email, password } = req.body;
 
