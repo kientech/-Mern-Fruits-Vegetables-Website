@@ -79,7 +79,7 @@ exports.login = async (req, res) => {
 
 // logout function
 exports.logout = async (req, res) => {
-  // Check if the user is authenticated by verifying the presence of a token or user session
+  // Check if the user is authenticated by verifying the presence of a token or user session.
   if (!req.cookies.token) {
     return res.status(404).json({
       status: "error",
