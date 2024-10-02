@@ -6,7 +6,6 @@ exports.createOrder = async (req, res) => {
   const userId = req.user._id;
 
   try {
-    // Fetch the user's cart
     const cart = await Cart.findOne({ user: userId }).populate("items.product");
 
     if (!cart || cart.items.length === 0) {
