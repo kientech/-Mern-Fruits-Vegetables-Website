@@ -29,9 +29,9 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; // Trang hiện tại, mặc định là 1
-    const limit = parseInt(req.query.limit) || 10; // Số sản phẩm trên mỗi trang, mặc định là 10
-    const skip = (page - 1) * limit; // Số lượng sản phẩm cần bỏ qua
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
     const totalProducts = await Product.countDocuments();
 
@@ -53,7 +53,6 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
-// Lấy sản phẩm theo slug
 exports.getProductBySlug = async (req, res) => {
   const { slug } = req.params;
 
@@ -77,7 +76,6 @@ exports.getProductBySlug = async (req, res) => {
   }
 };
 
-// Cập nhật sản phẩm theo slug
 exports.updateProductBySlug = async (req, res) => {
   const { slug } = req.params;
   const { name, description, price, image, category, quantity } = req.body;
@@ -116,7 +114,6 @@ exports.updateProductBySlug = async (req, res) => {
   }
 };
 
-// Xóa sản phẩm theo slug
 exports.deleteProductBySlug = async (req, res) => {
   const { slug } = req.params;
 
@@ -142,7 +139,6 @@ exports.deleteProductBySlug = async (req, res) => {
   }
 };
 
-// Lấy sản phẩm theo danh mục
 exports.getProductsByCategory = async (req, res) => {
   const { categoryId } = req.params;
 
