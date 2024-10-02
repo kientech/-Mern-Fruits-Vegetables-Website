@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sendEmail = require("../utils/sendMail");
 
 // Register feature
 exports.register = async (req, res) => {
