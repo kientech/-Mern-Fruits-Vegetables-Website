@@ -60,6 +60,12 @@ exports.getAllUsers = async (req, res) => {
 // update user
 exports.updateUser = async (req, res) => {
   try {
+    if (req.file) {
+      const avatarPath = req.file.path;
+
+      req.body.avatar = avatarPath;
+    }
+
     const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body, {
       new: true,
     }).select("-password");
